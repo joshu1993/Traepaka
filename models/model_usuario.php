@@ -10,7 +10,7 @@ class Usuario implements iModel {
     private $tipo_usuario;
     private $idioma;
     
-    public function __construct($dni="" , $password="", $nombre_usuario="", $correo_usuario="" , $tipo_usuario="usuario" , $idioma="esp", ) {
+    public function __construct($dni="" , $password="", $nombre_usuario="", $correo_usuario="", $tipo_usuario="usuario", $idioma="esp") {
         $this->dni = $dni;
         $this->password = $password;
         $this->nombre_usuario = $nombre_usuario;
@@ -18,6 +18,21 @@ class Usuario implements iModel {
         $this->tipo_usuario = $tipo_usuario;
         $this->idioma = $idioma;
         
+    }
+
+    private function getdni ($pk){
+        $db = new Database();
+
+        $query = 'SELECT dni FROM Usuario WHERE dni = \'' . $pk .  '\'';
+        $result = $db->consulta($query);
+
+        $row = $result->fetch_array(MYSQLI_NUM);
+        $id = $row[0];
+
+        $result->free();
+        $db->desconectar();
+
+        return $id;
     }
     
     private function getnombre_usuario ($pk){
@@ -80,7 +95,7 @@ class Usuario implements iModel {
         return $pass;
     }
 
-    //True or false dependiendo de si se cambió de forma correcta
+    //True o false dependiendo de si se cambió de forma correcta
     private function setpassword($oldPass, $newPass, $pk){
         //Comprueba que oldpass no coincida con la de la PK en la bd, si ocurre hace un update con newPass
         $db = new Database();
@@ -167,7 +182,7 @@ class Usuario implements iModel {
         $usucorreo_usuario = $this->getcorreo_usuario($pk);
 
         //Obtener tipo_usuario de usuario
-        $tipo_usuario = $this->gettipo_usuario($pk);
+        $usutipo_usuario = $this->gettipo_usuario($pk);
 
         //Crear array asociativo con los datos de la $pk
         $usuario = array("dni"=>$pk, "nombre_usuario"=>$usunombre_usuario, "password"=>$usuPass, "correo_usuario"=>$usucorreo_usuario,  "tipo_usuario" => $tipo_usuario);
