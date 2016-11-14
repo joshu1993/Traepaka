@@ -8,5 +8,5 @@
     $arrayUsuarios = $usuarios->listar();
 
     //Array asociativo de los deportistas de la BD, usador por el entrenador en a_nuevo_usu.php
-    $deportistas = $usuarios->listarDeportistas();
+    $usuarios = $usuarios->listarUsuarios();
 ?>
